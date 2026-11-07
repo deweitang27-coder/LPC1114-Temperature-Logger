@@ -1,0 +1,16 @@
+LPC1114 Temperature Logger - DS18B20 edition
+
+Target: LPC1114FBD48/302, 48MHz system clock.
+Temperature sensor: DS18B20, 1-Wire DQ on PIO0_6 with 4.7k pull-up to 3.3V.
+RTC: DS1307 over I2C (PIO0_4/PIO0_5).
+Storage: SPI Flash via SSP1. JEDEC 0B 40 13 provides 512KB. DS18B20 records
+occupy 4KB sectors from 0x011000 to 0x07FFFF; legacy NTC data at 0x010000
+is preserved. Capacity is 45399 records (about 12 h 36 min at 1 Hz).
+Serial: UART 115200 8O1 via CH340. Q reads the RTC; D exports every
+record as CSV while one-second sampling continues.
+Timing: TIMER32_0 provides the 1-second record tick; CT16B0 provides microsecond timing for 1-Wire slots.
+User I/O: D2 LED on PIO1_9 and K4 key on PIO3_5.
+
+Open Blinky.uvproj in Keil µVision, select LPC1114 Flash, and build with the project's installed LPC11xx device support.
+
+Current sensor connection is PIO0_6. See README.md for usage and limitations.
